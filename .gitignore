@@ -1,2 +1,4 @@
 Cred_token/credential.love
 .vscode/settings.json
+__pycache__/gdrive.cpython-37.pyc
+sheets.googleapis.com-python.json
