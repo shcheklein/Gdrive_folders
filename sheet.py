@@ -2,11 +2,12 @@ from pydrive2.auth import GoogleAuth
 from pydrive2.drive import GoogleDrive
 import pygsheets
 
-# Autenticacionn.
+# # Autenticacionn.
 
-gauth = GoogleAuth()
-gc = pygsheets.authorize(client_secret='sheet_secret.json')
-gauth.LocalWebserverAuth()
+# gauth = GoogleAuth()
+# gc = pygsheets.authorize(client_secret='sheet_secret.json')
+# gauth.LocalWebserverAuth()
+# gauth.CommandLineAuth()
 
 #Settings 
 
@@ -45,7 +46,7 @@ class Sheet():
         # Autenticacion
         self.gauth = GoogleAuth()
         self.gc = pygsheets.authorize(client_secret='sheet_secret.json')
-        self.gauth.LocalWebserverAuth()
+        self.gauth.CommandLineAuth()
 
     # Obtener valores de trabajos actuales
     def get_values(self):

@@ -8,6 +8,3 @@ verify_ssl = true
 [packages]
 pydrive2 = "*"
 pygsheets = "*"
-
-[requires]
-python_version = "3.7"
