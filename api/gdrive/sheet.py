@@ -1,6 +1,7 @@
 from pydrive2.auth import GoogleAuth
 from pydrive2.drive import GoogleDrive
 import pygsheets
+from ..models import Config
 
 # # Autenticacionn.
 
@@ -11,13 +12,17 @@ import pygsheets
 
 #Settings 
 
-FOLDER_INFORME_ID = "1zrxd0yR5pKrufqgZsddqXx_Ev2sejgMj"
-FOLDER_REVELAMIENTO_ID= "1sOvDaGAQvjY9TwlXW4VBQtToz2d_somv"
-SHEET_ID = "1pw6ElLByNNRgLVvc9WwzVESsPLKdJqVBBDpg_eE4nBQ"
 
-REMITO_COL = 1
-INFORME_COL = 33
-REVELEMIENTO_COL = 31
+#FOLDER_INFORME_ID = "1zrxd0yR5pKrufqgZsddqXx_Ev2sejgMj"
+FOLDER_INFORME_ID = Config.folder_informe_id
+#FOLDER_REVELAMIENTO_ID = "1sOvDaGAQvjY9TwlXW4VBQtToz2d_somv"
+FOLDER_REVELAMIENTO_ID = Config.folder_relevamiento_id
+SHEET_ID = Config.sheet_id
+#SHEET_ID = "1pw6ElLByNNRgLVvc9WwzVESsPLKdJqVBBDpg_eE4nBQ"
+
+REMITO_COL = Config.remito_col
+INFORME_COL = Config.informe_col
+REVELEMIENTO_COL = Config.relevamientos_col
 
 
 class Sheet():
