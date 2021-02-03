@@ -10,4 +10,5 @@ psycopg2-binary==2.8.6
 pytz==2020.5
 sqlparse==0.4.1
 wincertstore==0.2
-
+pygsheets~=2.0.4
+pydrive2~=1.7.0

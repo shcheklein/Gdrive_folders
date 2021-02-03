@@ -1,7 +1,7 @@
 from pydrive2.auth import GoogleAuth
 from pydrive2.drive import GoogleDrive
 import pygsheets
-from ..models import Config
+from api.models import Config
 
 # # Autenticacionn.
 
