@@ -88,10 +88,8 @@ class Sheet():
 
         self.ws.update_col(col_objetivo, col_lista)
         
-        
-if __name__ == "__main__":
 
-#def run():
+def run():
     
     sheet = Sheet()
     sheet.get_values()
