@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
-
+import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -25,7 +25,7 @@ SECRET_KEY = 'swsrkygt743*dl8w1dvtd+h$d1uwpu&nv0(cp0aoznsgrv5a4a'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', '.localhost', '0.0.0.0', '159.203.89.113']
 
 
 # Application definition
@@ -83,17 +83,17 @@ WSGI_APPLICATION = 'consultora_excel.wsgi.application'
 DATABASES = {
     'default': {
 
-        'ENGINE': 'django.db.backends.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
 
-        'NAME': 'db.sqlite3',
+        'NAME': 'consultora_excel',
 
-        #'USER': 'postgres',
+        'USER': 'consultora_excel',
 
-        #'PASSWORD': 'postgres',
+        'PASSWORD': 'consultora_excel',
 
-        #'HOST': '127.0.0.1',
+        'HOST': '127.0.0.1',
 
-        #'PORT': '5432',
+        'PORT': '5432',
 
     }
 }
@@ -136,3 +136,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
