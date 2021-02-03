@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'corsheaders',
+    'django_q',
     'api'
 ]
 
@@ -96,6 +97,11 @@ DATABASES = {
         #'PORT': '5432',
 
     }
+}
+
+Q_CLUSTER = {
+    "name": "tasks",
+    "orm": "default",  # Use Django's ORM + database for broker
 }
 
 
