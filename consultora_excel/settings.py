@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'corsheaders',
+    'django_q',
     'api'
 ]
 
@@ -82,7 +83,7 @@ WSGI_APPLICATION = 'consultora_excel.wsgi.application'
 
 DATABASES = {
     'default': {
-
+            
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
 
         'NAME': 'consultora_excel',
@@ -96,6 +97,9 @@ DATABASES = {
         'PORT': '5432',
 
     }
+Q_CLUSTER = {
+    "name": "tasks",
+    "orm": "default",  # Use Django's ORM + database for broker
 }
 
 
