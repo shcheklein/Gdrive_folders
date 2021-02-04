@@ -29,9 +29,9 @@ FOLDER_REVELAMIENTO_ID = config.folder_relevamiento_id
 SHEET_ID = config.sheet_id
 #SHEET_ID = "1pw6ElLByNNRgLVvc9WwzVESsPLKdJqVBBDpg_eE4nBQ"
 
-REMITO_COL = config.remito_col
-INFORME_COL = config.informe_col
-REVELEMIENTO_COL = config.relevamientos_col
+REMITO_COL = int(config.remito_col)
+INFORME_COL = int(config.informe_col)
+REVELEMIENTO_COL = int(config.relevamientos_col)
 
 
 class Sheet():
