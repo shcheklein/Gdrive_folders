@@ -1,7 +1,13 @@
+import os
+
+abspath = os.path.abspath(__file__)
+dname = os.path.dirname(abspath)
+os.chdir(dname)
+
+from api.models import Config
 from pydrive2.auth import GoogleAuth
 from pydrive2.drive import GoogleDrive
 import pygsheets
-from ..models import Config
 
 # # Autenticacionn.
 
@@ -12,17 +18,20 @@ from ..models import Config
 
 #Settings 
 
+config = Config.objects.get()
 
 #FOLDER_INFORME_ID = "1zrxd0yR5pKrufqgZsddqXx_Ev2sejgMj"
-FOLDER_INFORME_ID = Config.folder_informe_id
+
+
+FOLDER_INFORME_ID = config.folder_informe_id
 #FOLDER_REVELAMIENTO_ID = "1sOvDaGAQvjY9TwlXW4VBQtToz2d_somv"
-FOLDER_REVELAMIENTO_ID = Config.folder_relevamiento_id
-SHEET_ID = Config.sheet_id
+FOLDER_REVELAMIENTO_ID = config.folder_relevamiento_id
+SHEET_ID = config.sheet_id
 #SHEET_ID = "1pw6ElLByNNRgLVvc9WwzVESsPLKdJqVBBDpg_eE4nBQ"
 
-REMITO_COL = Config.remito_col
-INFORME_COL = Config.informe_col
-REVELEMIENTO_COL = Config.relevamientos_col
+REMITO_COL = config.remito_col
+INFORME_COL = config.informe_col
+REVELEMIENTO_COL = config.relevamientos_col
 
 
 class Sheet():
@@ -55,7 +64,8 @@ class Sheet():
 
     # Obtener valores de trabajos actuales
     def get_values(self):
-        
+        #print(self.FOLDER_INFORME_ID)
+        #print(self.FOLDER_REVELAMIENTO_ID)
         self.informes = self.search_folder(self.FOLDER_INFORME_ID)
         self.revelamientos = self.search_folder(self.FOLDER_REVELAMIENTO_ID)
         self.sh = self.gc.open_by_key(self.SHEET_ID)
@@ -90,7 +100,9 @@ class Sheet():
         
 
 def run():
-    
+
+#if __name__ == '__main__':
+
     sheet = Sheet()
     sheet.get_values()
     sheet.escribir_informes(sheet.informes,sheet.INFORME_COL,sheet.col_informe)

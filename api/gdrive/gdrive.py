@@ -11,7 +11,7 @@ gauth.LocalWebserverAuth()
 #Settings 
 
 FOLDER_INFORME_ID = "13Hbb2fVThUxyMRys_X_ovhzl4B9xLeLF"
-FOLDER_REVELAMIENTO_ID= "1TVVfjVodkXwgv_pTq3GoOfaBtrj0iahp"
+FOLDER_REVELAMIENTO_ID= "1sOvDaGAQvjY9TwlXW4VBQtToz2d_somv"
 SHEET_ID = "1_Zd58iYN0M_dAZipl52Db2YCYiL5rf3Do9N4m70iFOU"
 
 REMITO_COL = 1
