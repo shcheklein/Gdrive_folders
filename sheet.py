@@ -1,3 +1,9 @@
+import os
+
+abspath = os.path.abspath(__file__)
+dname = os.path.dirname(abspath)
+os.chdir(dname)
+
 from pydrive2.auth import GoogleAuth
 from pydrive2.drive import GoogleDrive
 import pygsheets
@@ -72,8 +78,9 @@ class Sheet():
     def escribir_informes(self,folder_list,col_objetivo, col_lista):
         
         for folder_element in folder_list:
-            if folder_element["title"] in self.col_remito:
-                index = self.col_remito.index(folder_element["title"])
+            element = folder_element['title'].split('.', 1)
+            if element[0] in self.col_remito:
+                index = self.col_remito.index(element[0])
                 if not col_lista[index]:
                     link = folder_element["alternateLink"]
                     title = folder_element["title"]
