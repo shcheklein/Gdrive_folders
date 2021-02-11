@@ -64,7 +64,7 @@ class Sheet():
     def search_folder(self,folderid: str):
 
         drive = GoogleDrive(self.gauth)
-        file_list = drive.ListFile({'q': f"'{folderid}' in parents"}).GetList()
+        file_list = drive.ListFile({'q': f"'{folderid}' in parents and trashed=false"}).GetList()
         return file_list
     
     # Iterar por cada uno de los informes, revisar en la columna remito y escribir los hiperlinks
