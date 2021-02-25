@@ -88,9 +88,9 @@ DATABASES = {
 
         'NAME': 'consultora_excel',
 
-        'USER': 'consultora_excel',
+        'USER': 'postgres',
 
-        'PASSWORD': 'consultora_excel',
+        'PASSWORD': 'postgres',
 
         'HOST': '127.0.0.1',
 

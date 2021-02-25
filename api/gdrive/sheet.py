@@ -9,6 +9,7 @@ from pydrive2.auth import GoogleAuth
 from pydrive2.drive import GoogleDrive
 import pygsheets
 
+
 # # Autenticacionn.
 
 # gauth = GoogleAuth()
@@ -17,17 +18,11 @@ import pygsheets
 # gauth.CommandLineAuth()
 
 #Settings 
-
 config = Config.objects.get()
 
-#FOLDER_INFORME_ID = "1zrxd0yR5pKrufqgZsddqXx_Ev2sejgMj"
-
-
 FOLDER_INFORME_ID = config.folder_informe_id
-#FOLDER_REVELAMIENTO_ID = "1sOvDaGAQvjY9TwlXW4VBQtToz2d_somv"
 FOLDER_REVELAMIENTO_ID = config.folder_relevamiento_id
 SHEET_ID = config.sheet_id
-#SHEET_ID = "1pw6ElLByNNRgLVvc9WwzVESsPLKdJqVBBDpg_eE4nBQ"
 
 REMITO_COL = int(config.remito_col)
 INFORME_COL = int(config.informe_col)
@@ -64,8 +59,7 @@ class Sheet():
 
     # Obtener valores de trabajos actuales
     def get_values(self):
-        #print(self.FOLDER_INFORME_ID)
-        #print(self.FOLDER_REVELAMIENTO_ID)
+        
         self.informes = self.search_folder(self.FOLDER_INFORME_ID)
         self.revelamientos = self.search_folder(self.FOLDER_REVELAMIENTO_ID)
         self.sh = self.gc.open_by_key(self.SHEET_ID)
@@ -74,13 +68,12 @@ class Sheet():
         self.col_remito = self.ws.get_col(REMITO_COL)
         self.col_informe = self.ws.get_col(INFORME_COL,value_render="FORMULA")
         self.col_revelamiento = self.ws.get_col(REVELEMIENTO_COL,value_render="FORMULA")
-
    
     # Requiere ID de una carpeta, retorna lista de archivos y/o sub carpetas
     def search_folder(self,folderid: str):
 
         drive = GoogleDrive(self.gauth)
-        file_list = drive.ListFile({'q': f"'{folderid}' in parents"}).GetList()
+        file_list = drive.ListFile({'q': f"'{folderid}' in parents and trashed=false"}).GetList()
         return file_list
     
     # Iterar por cada uno de los informes, revisar en la columna remito y escribir los hiperlinks
@@ -98,11 +91,9 @@ class Sheet():
 
         self.ws.update_col(col_objetivo, col_lista)
         
-
+        
 def run():
-
-#if __name__ == '__main__':
-
+    
     sheet = Sheet()
     sheet.get_values()
     sheet.escribir_informes(sheet.informes,sheet.INFORME_COL,sheet.col_informe)
