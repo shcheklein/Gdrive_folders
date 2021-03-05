@@ -40,7 +40,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'django_q',
-    'api'
+    'api',
+    'anymail',
+    'emails'
 ]
 
 MIDDLEWARE = [
@@ -103,6 +105,17 @@ Q_CLUSTER = {
     "orm": "default",  # Use Django's ORM + database for broker
 }
 
+EMAIL_BACKEND = "anymail.backends.mailjet.EmailBackend"
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = '587'
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'developers@consultoraparodi.com.ar'
+EMAIL_HOST_PASSWORD = 'Deve1835'
+ANYMAIL = {
+
+    "MAILJET_API_KEY": "55a82dd4aed29afbefd7c591af7c8072",
+    "MAILJET_SECRET_KEY": "317500083e1bce803c1e9d36b3605ce4",
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators

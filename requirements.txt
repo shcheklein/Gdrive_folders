@@ -12,3 +12,4 @@ sqlparse==0.4.1
 wincertstore==0.2
 pygsheets~=2.0.4
 pydrive2~=1.7.0
+django-anymail[mailjet]==8.2
