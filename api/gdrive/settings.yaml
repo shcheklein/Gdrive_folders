@@ -2,5 +2,5 @@ client_config_file: sheet_secret.json
 
 save_credentials: True
 save_credentials_backend: file
-save_credentials_file: cred_token\credential.json
+save_credentials_file: cred_token/credential.json
 get_refresh_token: True
