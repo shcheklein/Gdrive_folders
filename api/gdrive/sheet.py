@@ -34,6 +34,14 @@ INFORME_COL = int(config.informe_col)
 REVELEMIENTO_COL = int(config.relevamientos_col)
 
 
+ESTADO_COL = 11
+RESPONSABLE_COL = 12
+MEDIDO_COL = 25
+INFORMADO_COL = 26
+APROB1_COL = 27
+APROB2_COL = 28
+IMPRIMIR_COL = 29
+
 class Sheet():
     def __init__(self,folder_inf=FOLDER_INFORME_ID,folder_rev=FOLDER_REVELAMIENTO_ID,
                  sheet_id=SHEET_ID,remito=REMITO_COL,informe=INFORME_COL,
@@ -47,6 +55,13 @@ class Sheet():
         self.INFORME_COL = informe
         self.REVELEMIENTO_COL = revelamiento
         
+        self.edo_col = ESTADO_COL
+        self.responsable_col = RESPONSABLE_COL
+        self.medido_col = MEDIDO_COL
+        self.informado_col = INFORMADO_COL
+        self.aprob1_col = APROB1_COL
+        self.aprob2_col = APROB2_COL
+        self.imprimir_col = IMPRIMIR_COL
         # Declarando Variables de trabajo
         self.informes = []
         self.revelamientos = []
@@ -56,6 +71,14 @@ class Sheet():
         self.col_remito = []
         self.col_informe = []
         self.col_revelamiento = []
+        
+        self.edo = []
+        self.responsable = []
+        self.medido = []
+        self.informado =[]
+        self.aprob1 = []
+        self.aprob2 = []
+        self.imprimir = []
         
         # Autenticacion
         self.gauth = GoogleAuth()
@@ -98,6 +121,19 @@ class Sheet():
 
         self.ws.update_col(col_objetivo, col_lista)
         
+    def get_status_columns(self):
+        self.sh = self.gc.open_by_key(self.SHEET_ID)
+        self.ws = self.sh.sheet1
+        
+        self.edo = self.ws.get_col(self.edo_col)
+        self.responsable = self.ws.get_col(self.responsable_col)
+        self.medido = self.ws.get_col(self.medido_col)
+        self.informado = self.ws.get_col(self.informado_col)
+        self.aprob1 = self.ws.get_col(self.aprob1_col)
+        self.aprob2 = self.ws.get_col(self.aprob2_col)
+        self.imprimir = self.ws.get_col(self.imprimir_col)
+
+                
 
 def run():
 
