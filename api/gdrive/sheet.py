@@ -33,14 +33,21 @@ REMITO_COL = int(config.remito_col)
 INFORME_COL = int(config.informe_col)
 REVELEMIENTO_COL = int(config.relevamientos_col)
 
+#!Settings Database 
 
-ESTADO_COL = 11
-RESPONSABLE_COL = 12
-MEDIDO_COL = 25
-INFORMADO_COL = 26
-APROB1_COL = 27
-APROB2_COL = 28
-IMPRIMIR_COL = 29
+NUMERO_ESTUDIO_COL = 4
+ID_CLIENTE_COL = 6
+NOMBRE_CLIENTE_COL = 7
+TIPO_ESTUDIO_COL = 10
+APROB2_COL = 29
+
+#! Email Settings
+
+SHEET_EMAIL_ID = "1f9nJT38WbV4Rf9eW1g67HFWG6lqTugu-GD6BRYfJJ8M"
+ID_CLIENTE_EMAIL_COL = 2
+CORREO_CLIENTE_COL = 6
+
+
 
 class Sheet():
     def __init__(self,folder_inf=FOLDER_INFORME_ID,folder_rev=FOLDER_REVELAMIENTO_ID,
@@ -55,40 +62,55 @@ class Sheet():
         self.INFORME_COL = informe
         self.REVELEMIENTO_COL = revelamiento
         
-        self.edo_col = ESTADO_COL
-        self.responsable_col = RESPONSABLE_COL
-        self.medido_col = MEDIDO_COL
-        self.informado_col = INFORMADO_COL
-        self.aprob1_col = APROB1_COL
+        #* Variables para guardar en DB
+
+        
+        self.numero_estudio_col = NUMERO_ESTUDIO_COL
+        self.id_cliente_col = ID_CLIENTE_COL
+        self.nombre_cliente_col = NOMBRE_CLIENTE_COL
+        self.tipo_estudio_col = TIPO_ESTUDIO_COL
         self.aprob2_col = APROB2_COL
-        self.imprimir_col = IMPRIMIR_COL
+                
+        #* Variables para envio de correo
+        
+        self.sheet_email_id = SHEET_EMAIL_ID
+        self.id_cliente_email_col = ID_CLIENTE_EMAIL_COL
+        self.correo_cliente_col = CORREO_CLIENTE_COL
+
         # Declarando Variables de trabajo
+
         self.informes = []
         self.revelamientos = []
         self.sh = []
         self.ws = []
         
+        #? Variables de actualizar informe
+        
         self.col_remito = []
         self.col_informe = []
         self.col_revelamiento = []
         
-        self.edo = []
-        self.responsable = []
-        self.medido = []
-        self.informado =[]
-        self.aprob1 = []
+        #? Variables de guardar en DataBase       
+         
+        self.numero_estudio = []
+        self.id_cliente = []
+        self.nombre_cliente = []
+        self.tipo_estudio =[]
         self.aprob2 = []
-        self.imprimir = []
+        
+        self.id_cliente_email = []
+        self.correo_cliente = []
+
         
         # Autenticacion
+        
         self.gauth = GoogleAuth()
         self.gc = pygsheets.authorize(client_secret='sheet_secret.json')
         self.gauth.CommandLineAuth()
 
     # Obtener valores de trabajos actuales
     def get_values(self):
-        #print(self.FOLDER_INFORME_ID)
-        #print(self.FOLDER_REVELAMIENTO_ID)
+        
         self.informes = self.search_folder(self.FOLDER_INFORME_ID)
         self.revelamientos = self.search_folder(self.FOLDER_REVELAMIENTO_ID)
         self.sh = self.gc.open_by_key(self.SHEET_ID)
@@ -97,13 +119,12 @@ class Sheet():
         self.col_remito = self.ws.get_col(REMITO_COL)
         self.col_informe = self.ws.get_col(INFORME_COL,value_render="FORMULA")
         self.col_revelamiento = self.ws.get_col(REVELEMIENTO_COL,value_render="FORMULA")
-
    
     # Requiere ID de una carpeta, retorna lista de archivos y/o sub carpetas
     def search_folder(self,folderid: str):
 
         drive = GoogleDrive(self.gauth)
-        file_list = drive.ListFile({'q': f"'{folderid}' in parents"}).GetList()
+        file_list = drive.ListFile({'q': f"'{folderid}' in parents and trashed=false"}).GetList()
         return file_list
     
     # Iterar por cada uno de los informes, revisar en la columna remito y escribir los hiperlinks
@@ -120,19 +141,26 @@ class Sheet():
                     col_lista[index] = f'=HYPERLINK("{link}";"{title}")'
 
         self.ws.update_col(col_objetivo, col_lista)
-        
+    
+    # Obtiene los valores de todas las variables de interes de la base de datos
+    
     def get_status_columns(self):
         self.sh = self.gc.open_by_key(self.SHEET_ID)
         self.ws = self.sh.sheet1
         
-        self.edo = self.ws.get_col(self.edo_col)
-        self.responsable = self.ws.get_col(self.responsable_col)
-        self.medido = self.ws.get_col(self.medido_col)
-        self.informado = self.ws.get_col(self.informado_col)
-        self.aprob1 = self.ws.get_col(self.aprob1_col)
+        self.numero_estudio = self.ws.get_col(self.numero_estudio_col)
+        self.id_cliente = self.ws.get_col(self.id_cliente_col)
+        self.nombre_cliente = self.ws.get_col(self.nombre_cliente_col)
+        self.tipo_estudio = self.ws.get_col(self.tipo_estudio_col)
         self.aprob2 = self.ws.get_col(self.aprob2_col)
-        self.imprimir = self.ws.get_col(self.imprimir_col)
-
+        
+    def get_email_inf(self):
+        
+        self.sh = self.gc.open_by_key(self.sheet_email_id)
+        self.ws = self.sh.sheet1
+        self.id_cliente_email = self.ws.get_col(self.id_cliente_col)
+        self.correo_cliente = self.ws.get_col(self.correo_cliente_col)
+        
                 
 
 def run():
