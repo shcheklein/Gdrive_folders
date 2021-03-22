@@ -4,11 +4,10 @@ abspath = os.path.abspath(__file__)
 dname = os.path.dirname(abspath)
 os.chdir(dname)
 
-from ..models import Config
+from api.models import Config
 from pydrive2.auth import GoogleAuth
 from pydrive2.drive import GoogleDrive
 import pygsheets
-
 
 # # Autenticacionn.
 
@@ -18,15 +17,36 @@ import pygsheets
 # gauth.CommandLineAuth()
 
 #Settings 
+
 config = Config.objects.get()
 
+#FOLDER_INFORME_ID = "1zrxd0yR5pKrufqgZsddqXx_Ev2sejgMj"
+
+
 FOLDER_INFORME_ID = config.folder_informe_id
+#FOLDER_REVELAMIENTO_ID = "1sOvDaGAQvjY9TwlXW4VBQtToz2d_somv"
 FOLDER_REVELAMIENTO_ID = config.folder_relevamiento_id
 SHEET_ID = config.sheet_id
+#SHEET_ID = "1pw6ElLByNNRgLVvc9WwzVESsPLKdJqVBBDpg_eE4nBQ"
 
 REMITO_COL = int(config.remito_col)
 INFORME_COL = int(config.informe_col)
 REVELEMIENTO_COL = int(config.relevamientos_col)
+
+#!Settings Database 
+
+NUMERO_ESTUDIO_COL = 4
+ID_CLIENTE_COL = 6
+NOMBRE_CLIENTE_COL = 7
+TIPO_ESTUDIO_COL = 10
+APROB2_COL = 29
+
+#! Email Settings
+
+SHEET_EMAIL_ID = "1f9nJT38WbV4Rf9eW1g67HFWG6lqTugu-GD6BRYfJJ8M"
+ID_CLIENTE_EMAIL_COL = 2
+CORREO_CLIENTE_COL = 6
+
 
 
 class Sheet():
@@ -42,17 +62,48 @@ class Sheet():
         self.INFORME_COL = informe
         self.REVELEMIENTO_COL = revelamiento
         
+        #* Variables para guardar en DB
+
+        
+        self.numero_estudio_col = NUMERO_ESTUDIO_COL
+        self.id_cliente_col = ID_CLIENTE_COL
+        self.nombre_cliente_col = NOMBRE_CLIENTE_COL
+        self.tipo_estudio_col = TIPO_ESTUDIO_COL
+        self.aprob2_col = APROB2_COL
+                
+        #* Variables para envio de correo
+        
+        self.sheet_email_id = SHEET_EMAIL_ID
+        self.id_cliente_email_col = ID_CLIENTE_EMAIL_COL
+        self.correo_cliente_col = CORREO_CLIENTE_COL
+
         # Declarando Variables de trabajo
+
         self.informes = []
         self.revelamientos = []
         self.sh = []
         self.ws = []
         
+        #? Variables de actualizar informe
+        
         self.col_remito = []
         self.col_informe = []
         self.col_revelamiento = []
         
+        #? Variables de guardar en DataBase       
+         
+        self.numero_estudio = []
+        self.id_cliente = []
+        self.nombre_cliente = []
+        self.tipo_estudio =[]
+        self.aprob2 = []
+        
+        self.id_cliente_email = []
+        self.correo_cliente = []
+
+        
         # Autenticacion
+        
         self.gauth = GoogleAuth()
         self.gc = pygsheets.authorize(client_secret='sheet_secret.json')
         self.gauth.CommandLineAuth()
@@ -90,10 +141,32 @@ class Sheet():
                     col_lista[index] = f'=HYPERLINK("{link}";"{title}")'
 
         self.ws.update_col(col_objetivo, col_lista)
-        
-        
-def run():
     
+    # Obtiene los valores de todas las variables de interes de la base de datos
+    
+    def get_status_columns(self):
+        self.sh = self.gc.open_by_key(self.SHEET_ID)
+        self.ws = self.sh.sheet1
+        
+        self.numero_estudio = self.ws.get_col(self.numero_estudio_col)
+        self.id_cliente = self.ws.get_col(self.id_cliente_col)
+        self.nombre_cliente = self.ws.get_col(self.nombre_cliente_col)
+        self.tipo_estudio = self.ws.get_col(self.tipo_estudio_col)
+        self.aprob2 = self.ws.get_col(self.aprob2_col)
+        
+    def get_email_inf(self):
+        
+        self.sh = self.gc.open_by_key(self.sheet_email_id)
+        self.ws = self.sh.sheet1
+        self.id_cliente_email = self.ws.get_col(self.id_cliente_col)
+        self.correo_cliente = self.ws.get_col(self.correo_cliente_col)
+        
+                
+
+def run():
+
+#if __name__ == '__main__':
+
     sheet = Sheet()
     sheet.get_values()
     sheet.escribir_informes(sheet.informes,sheet.INFORME_COL,sheet.col_informe)
